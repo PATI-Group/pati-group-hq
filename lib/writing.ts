@@ -1,6 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import index from "../content/writing/index.json";
 import { PAGE_SIZE } from "./site";
 
 export const writingCategories = [
@@ -27,7 +26,25 @@ export type WritingMeta = {
 
 export type WritingPost = WritingMeta & { body: string };
 
-const posts = index as WritingMeta[];
+function loadJsonArray<T>(single: string, partsDir: string): T[] {
+  if (existsSync(single)) {
+    return JSON.parse(readFileSync(single, "utf8")) as T[];
+  }
+  if (!existsSync(partsDir)) return [];
+  const files = readdirSync(partsDir)
+    .filter((name) => /^part-\d+\.json$/.test(name))
+    .sort((a, b) => Number(a.match(/\d+/)?.[0] || 0) - Number(b.match(/\d+/)?.[0] || 0));
+  const all: T[] = [];
+  for (const name of files) {
+    all.push(...(JSON.parse(readFileSync(join(partsDir, name), "utf8")) as T[]));
+  }
+  return all;
+}
+
+const posts = loadJsonArray<WritingMeta>(
+  join(process.cwd(), "content/writing/index.json"),
+  join(process.cwd(), "content/writing/index"),
+);
 
 export function getWritingPosts() {
   return posts;
@@ -81,20 +98,7 @@ let bodyMap: Map<string, WritingPost> | null = null;
 function loadBodies() {
   if (bodyMap) return bodyMap;
   const root = join(process.cwd(), "content/writing");
-  const single = join(root, "posts.json");
-  const partsDir = join(root, "posts");
-  let full: WritingPost[] = [];
-  if (existsSync(single)) {
-    full = JSON.parse(readFileSync(single, "utf8")) as WritingPost[];
-  } else if (existsSync(partsDir)) {
-    const files = readdirSync(partsDir)
-      .filter((name) => /^part-\d+\.json$/.test(name))
-      .sort();
-    for (const name of files) {
-      const chunk = JSON.parse(readFileSync(join(partsDir, name), "utf8")) as WritingPost[];
-      full.push(...chunk);
-    }
-  }
+  const full = loadJsonArray<WritingPost>(join(root, "posts.json"), join(root, "posts"));
   bodyMap = new Map(full.map((p) => [p.slug, p]));
   return bodyMap;
 }
