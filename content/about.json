@@ -1,0 +1,60 @@
+{
+  "welcome": "Welcome to PATI Group, the ultimate destination for individuals aspiring to build a thriving career in eCommerce.",
+  "aboutShort": "PATI is a fast-growing E-commerce business specializing in supporting dietary supplement businesses, achieving a remarkable 500% increase in sales within just one year in the United States market.",
+  "vision": "By 2026, PATI will be the leading dietary supplement company in Vietnam, offering innovative and high-quality products. We aim to inspire our customers to change their lifestyles and optimize their physical, mental, and intellectual potential.",
+  "visionGoals": [
+    "200,000 People change their lifestyle",
+    "NPS of Wellness Nest & Miracle Mushroom > 90%",
+    "$20M Net Profit"
+  ],
+  "aboutLead": "At PATI Group, we live by our company values, fostering an inspiring culture for our people. Our values are fundamental to our mission – they guide us in delivering excellence for our customers, our team, and our partners. We have three core values",
+  "values": [
+    {
+      "name": "Honor Our Word",
+      "behaviors": [
+        "Execute Diligently Agreed Commitments With Quality & Deadline",
+        "Remind Teammates, Inform Stakeholders Promptly Of Commitment Gap",
+        "Acknowledge Commitment Gaps: Inform, Take Responsibility, Recommit Immediately"
+      ]
+    },
+    {
+      "name": "Play Like A Teamsport",
+      "behaviors": [
+        "Start With SMART Goal, Close With Action Plan",
+        "Guide, Collaborate And Share Experience For Team Success",
+        "Recognize Efforts And Behaviors Promptly, Regardless of Result"
+      ]
+    },
+    {
+      "name": "Foster Innovation",
+      "behaviors": [
+        "Welcome New Ideas With Open Ears And Mind",
+        "Pursue Wisdom Proactively: Learn and Share Insightful Knowledge",
+        "Try Fast, Fail Fast, And Learn Fast Fearlessly"
+      ]
+    }
+  ],
+  "saturdayTitle": "Activities & Spirits - Well-being Saturday",
+  "saturday": [
+    {
+      "t": "6:30 AM - 7:30 AM",
+      "b": "Build a sport team!!! Location: Vinhomes Central Park | 208 Nguyen Huu Canh Street, Ward 22, Binh Thanh District. Tracking our running progress with the Strava app. Remember to install this on your tracking device (Phone, Watch)"
+    },
+    {
+      "t": "7:30 AM - 8:00 AM - Feedback Sharing",
+      "b": "Share the feedback you collected on Saturday. Measure our performance last week: our human resources (attitude, mindset), our working system, our habits (in 80/20 time). What's to improve next?"
+    },
+    {
+      "t": "8:00 AM - 8:30 AM - Start - Stop - Continue",
+      "b": "Share \"Start - Stop - Continue\". Share and update Commitments next week."
+    },
+    {
+      "t": "8:30 AM - 9:00 AM - Team Meeting",
+      "b": "Review this week's Plan and Productivity. What has been done? What has not been done? - Why? What are plans for next week? Target?"
+    }
+  ],
+  "cultureTitle": "PATI Group’s Culture: Where Only the Elite Thrive by Unyielding Core Values",
+  "cultureOpen": "If you're dreaming of joining PATI Group, be prepared to bring your A-game—every single day. We're not just another company with generic values plastered on a wall; we're a powerhouse where only the elite thrive.",
+  "careersLead": "We find teammates to improve strong Growth Mindset and Strong Body together.",
+  "careersSite": "On-site ONLY. Based in Ho Chi Minh City, Vietnam."
+}
