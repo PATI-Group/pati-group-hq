@@ -1,0 +1,1 @@
+hero.webp is 25938 bytes on disk. Binary push_files skipped (WebP contains NUL bytes and cannot be sent as a JSON string).
