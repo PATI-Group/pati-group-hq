@@ -6,6 +6,65 @@ function escapeHtml(s: string) {
     .replace(/"/g, "&quot;");
 }
 
+function sameUrl(a: string, b: string) {
+  return a.replace(/\/$/, "") === b.replace(/\/$/, "");
+}
+
+function unwrapLinkedImages(md: string) {
+  let t = md;
+  t = t.replace(
+    /\[\s*\n+\s*!\[([^\]]*)\]\(([^)\n]+)\)\s*\n+\s*\]\(([^)\n]+)\)/g,
+    (_m, alt: string, src: string, href: string) => {
+      const s = String(src).trim();
+      const h = String(href).trim();
+      if (sameUrl(s, h)) return `![${alt}](${s})`;
+      return `[![${alt}](${s})](${h})`;
+    },
+  );
+  t = t.replace(
+    /\[!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)/g,
+    (_m, alt: string, src: string, href: string) => {
+      const s = String(src).trim();
+      const h = String(href).trim();
+      if (sameUrl(s, h)) return `![${alt}](${s})`;
+      return `[![${alt}](${s})](${h})`;
+    },
+  );
+  return t;
+}
+
+function unwrapMultilineLinks(md: string) {
+  return md.replace(
+    /\[\s*\n+\s*([^\n\[\]]+?)\s*\n+\s*\]\(([^)\n]+)\)/g,
+    (_m, label: string, href: string) => `[${String(label).trim()}](${String(href).trim()})`,
+  );
+}
+
+function stripOrphanMarkdown(md: string) {
+  let t = md;
+  t = t.replace(/^\s*\]\((?:\/(?:media|writing)\/|https?:)[^)]+\)\s*$/gm, "");
+  t = t.replace(/^\s*!\[\s*$/gm, "");
+  t = t.replace(/^\s*\[\s*$/gm, "");
+  t = t.replace(/\]\(([^)]+)\)/g, (m, url: string, offset: number) => {
+    const before = t.slice(0, offset);
+    if (/\]\([^)]+\)$/.test(before)) return m;
+    if (/\[[^\]]*$/.test(before)) return m;
+    if (/^\/(?:media|writing)\//.test(url) || /^https?:\/\//i.test(url)) return "";
+    return m;
+  });
+  return t;
+}
+
+export function normalizeMarkdown(source: string) {
+  let md = (source || "").replace(/\r\n/g, "\n");
+  for (let n = 0; n < 8; n += 1) {
+    const next = unwrapMultilineLinks(unwrapLinkedImages(md));
+    if (next === md) break;
+    md = next;
+  }
+  return stripOrphanMarkdown(md);
+}
+
 function inline(s: string) {
   let t = escapeHtml(s);
   t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt: string, src: string) => {
@@ -27,8 +86,26 @@ function inline(s: string) {
   return t;
 }
 
+function stripMarkdownLeakHtml(html: string) {
+  let h = html;
+  h = h.replace(/<p>\s*!?\s*\[\s*<\/p>\s*/g, "");
+  h = h.replace(/<p>\s*\]\((?:\/(?:media|writing)\/|https?:)[^)]+\)\s*<\/p>\s*/g, "");
+  h = h.replace(/\]\(\/(?:media|writing)\/[^)]+\)/g, "");
+  h = h.replace(/(^|[>\s])!\[\s*(?=<|$)/g, "$1");
+  return h;
+}
+
+function visibleMarkdownLeaks(html: string) {
+  const text = html.replace(/<[^>]+>/g, " ");
+  return {
+    media: (text.match(/\]\(\/media\//g) || []).length,
+    writing: (text.match(/\]\(\/writing\//g) || []).length,
+    bang: (text.match(/!\[/g) || []).length,
+  };
+}
+
 export function markdownToHtml(source: string) {
-  const lines = (source || "").replace(/\r\n/g, "\n").split("\n");
+  const lines = normalizeMarkdown(source).split("\n");
   const out: string[] = [];
   let i = 0;
   while (i < lines.length) {
@@ -72,11 +149,22 @@ export function markdownToHtml(source: string) {
     }
     const buf: string[] = [line];
     i += 1;
-    while (i < lines.length && lines[i].trim() && !/^#{1,3}\s+/.test(lines[i]) && !/^[-*]\s+/.test(lines[i]) && !/^>\s?/.test(lines[i])) {
+    while (
+      i < lines.length &&
+      lines[i].trim() &&
+      !/^#{1,3}\s+/.test(lines[i]) &&
+      !/^[-*]\s+/.test(lines[i]) &&
+      !/^>\s?/.test(lines[i])
+    ) {
       buf.push(lines[i]);
       i += 1;
     }
     out.push(`<p>${inline(buf.join(" "))}</p>`);
   }
-  return out.join("\n");
+  return stripMarkdownLeakHtml(out.join("\n"));
+}
+
+export function assertNoMarkdownLeak(html: string) {
+  const leaks = visibleMarkdownLeaks(html);
+  return leaks.media === 0 && leaks.writing === 0 && leaks.bang === 0;
 }
