@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = loadWritingPost(slug);
+  const post = await loadWritingPost(slug);
   if (!post) return { title: "Writing" };
   return { title: post.title, description: post.subtitle || post.title };
 }
@@ -23,7 +23,7 @@ export default async function WritingPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = loadWritingPost(slug);
+  const post = await loadWritingPost(slug);
   if (!post) notFound();
   const html = markdownToHtml(post.body);
   const cat = writingCategories.find((c) => c.id === post.category)?.label || post.category;

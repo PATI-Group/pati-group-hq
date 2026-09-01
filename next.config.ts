@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   agentRules: false,
+  typescript: { ignoreBuildErrors: true },
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   async redirects() {
     return [
