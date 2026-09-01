@@ -8,7 +8,7 @@ export default function ApplyPage() {
   return (
     <Shell
       h="Apply"
-      l="Proof of Honor Our Word / Play Like A Teamsport / Foster Innovation. The same ask as PATI Substack JDs."
+      l="Proof of Honor Our Word / Play Like A Teamsport / Foster Innovation. The same ask as PATI JDs."
     >
       <ApplyForm />
     </Shell>

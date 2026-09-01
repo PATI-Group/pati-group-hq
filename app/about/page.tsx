@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "About" };
 
 export default function AboutPage() {
   return (
-    <Shell h="About" l={about.aboutShort}>
+    <Shell h="About">
       <img
         className="cover"
         src="/media/home/large-group.webp"
@@ -15,6 +15,7 @@ export default function AboutPage() {
         height={720}
       />
       <section className="prose">
+        <p>{about.aboutShort}</p>
         <h2>Vision</h2>
         <p>{about.vision}</p>
         <ul className="list">
