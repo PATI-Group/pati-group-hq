@@ -1,5 +1,7 @@
 import Link from "next/link";
 import about from "../content/about.json";
+import { PhotoStrip } from "../components/photos";
+import { CULTURE_POST_PHOTOS, HOME_PHOTOS } from "../lib/photos";
 
 export default function HomePage() {
   return (
@@ -7,12 +9,11 @@ export default function HomePage() {
       <section className="hero">
         <img
           className="hero-photo"
-          src="/media/hero.webp"
-          alt="PATI Group teammates outdoors"
+          src="/media/home/park-selfie.webp"
+          alt="PATI teammates on a park outing"
           width={1280}
           height={720}
         />
-        <div className="hero-grade" aria-hidden />
         <div className="hero-read" aria-hidden />
         <div className="copy">
           <h1>PATI Group</h1>
@@ -21,6 +22,9 @@ export default function HomePage() {
             Apply
           </Link>
         </div>
+      </section>
+      <section className="strip-wrap" aria-label="PATI people">
+        <PhotoStrip photos={[...HOME_PHOTOS, ...CULTURE_POST_PHOTOS]} />
       </section>
       <section className="band">
         <h2>About</h2>
