@@ -9,8 +9,11 @@ function escapeHtml(s: string) {
 function inline(s: string) {
   let t = escapeHtml(s);
   t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt: string, src: string) => {
-    if (!src.startsWith("/writing/")) return "";
-    return `<img src="${src}" alt="${alt}" loading="lazy" />`;
+    const srcLocal = src
+      .replace(/\/writing\/[a-z0-9-]+\/([0-9a-f-]{8,}\.webp)/i, "/media/$1")
+      .replace(/"/g, "");
+    if (!srcLocal.startsWith("/media/")) return "";
+    return `<img src="${srcLocal}" alt="${alt}" loading="lazy" />`;
   });
   t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label: string, href: string) => {
     const safe = href.replace(/"/g, "");

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { writingCategories, type WritingMeta } from "../lib/writing";
+import { mediaPath, writingCategories, type WritingMeta } from "../lib/writing";
 
 export function Filters({
   base,
@@ -34,6 +34,10 @@ export function PostList({ posts }: { posts: WritingMeta[] }) {
       {posts.map((p) => (
         <li key={p.slug}>
           <Link className="item" href={`/writing/${p.slug}`}>
+            {mediaPath(p.cover) ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="thumb" src={mediaPath(p.cover)} alt="" width={320} height={180} loading="lazy" />
+            ) : null}
             <p className="meta">
               {writingCategories.find((c) => c.id === p.category)?.label || p.category}
               {p.date ? ` · ${p.date}` : ""}
