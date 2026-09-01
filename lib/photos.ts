@@ -13,6 +13,12 @@ export const HOME_PHOTOS: Photo[] = [
   { src: "/media/home/large-group.webp", alt: "Large PATI group outdoors" },
   { src: "/media/home/park-selfie-2.webp", alt: "Park selfie with the team" },
   { src: "/media/home/fan-page.webp", alt: "PATI teammates together" },
+  { src: "/media/home/office-five.webp", alt: "Five teammates in the open-plan office" },
+  { src: "/media/home/certificates.webp", alt: "Colleagues with PATI completion certificates" },
+  { src: "/media/home/block71.webp", alt: "Six people, finger hearts at BLOCK71" },
+  { src: "/media/home/rooftop-cards.webp", alt: "Teammates on a rooftop with pop-up cards" },
+  { src: "/media/home/ceo-circle.webp", alt: "CEO Circle 2025 marketing workshop" },
+  { src: "/media/home/pickleball.webp", alt: "Night pickleball-court selfie after play" },
 ];
 
 /** van-hoa covers once recoded into /media/{hash}.webp */
