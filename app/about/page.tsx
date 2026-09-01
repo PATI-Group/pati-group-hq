@@ -7,6 +7,13 @@ export const metadata: Metadata = { title: "About" };
 export default function AboutPage() {
   return (
     <Shell h="About" l={about.aboutShort}>
+      <img
+        className="cover"
+        src="/media/home/large-group.webp"
+        alt="PATI Group outdoors"
+        width={1280}
+        height={720}
+      />
       <section className="prose">
         <h2>Vision</h2>
         <p>{about.vision}</p>
